@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  mr-hrms:
+    image: mr-hrms:0.0.2
+    container_name: mr-hrms
+    ports:
+      - "3000:80"
