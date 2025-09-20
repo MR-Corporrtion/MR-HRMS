@@ -1,32 +1,23 @@
-# Build stage
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
-# Set working directory
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
-# Copy package files
-COPY package*.json ./
+##ENV NODE_ENV production
+ENV NODE_ENV $NODE_ENV
+ENV DEBUG $DEBUG
 
-# Install dependencies
-RUN npm install --legacy-peer-deps
+# Copy app dependencies
+#COPY package*.json yarn.lock ./
+#
+RUN chmod 2777 "/usr/src/app"
 
-# Copy rest of the application
-COPY . .
+COPY . /usr/src/app
 
-# Build the application
+# Install app dependencies
+RUN npm install --pure-lockfile
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+EXPOSE 3030
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy built static files from builder stage
-COPY --from=builder /app/out /usr/share/nginx/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "npm", "run", "start", "-p", "3030" ]
