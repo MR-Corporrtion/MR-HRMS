@@ -324,3 +324,42 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* 🧾 Enforce A4 proportions and clean page layout */
+#newJoineeKit {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  background: white;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 🔖 Ensure each section starts on a new page */
+.page-break {
+  page-break-before: always;
+  page-break-after: always;
+  break-before: page;
+  break-after: page;
+}
+
+/* 🖨 Print-specific adjustments */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  #newJoineeKit {
+    width: 210mm;
+    min-height: 297mm;
+    page-break-inside: avoid;
+  }
+
+  .page-break {
+    page-break-before: always;
+    page-break-after: always;
+  }
+}
+
+

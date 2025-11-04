@@ -30,7 +30,7 @@ export default function RegistrationFeePage2({ employeeData,companyData,branchDa
                 />
               </div>
         <p className="text-center text-sm">
-          Plot No-HIG-42, Gangadhar Meher Marg, Jayadev Vihar, Bhubaneswar 751013, Odisha
+          Arya Surya Enclave, Plot No- K5/475, Khata No 95/937, Fourth Floor, Mouza-Subudhi Pur, Kalinga Vihar, Patrapada, Bhuabneswar, Dist- Khurda, Odisha, India-751019.
         </p>
       </div>
 
@@ -117,17 +117,17 @@ export default function RegistrationFeePage2({ employeeData,companyData,branchDa
           {companyData?.compname}.
         </p>
       </div>
-      <div className="mt-2 flex justify-between items-center text-sm">
+      <div className="w-full mt-2 flex justify-between items-center text-sm">
         <div>
           <p className="font-semibold">
-            Place: <strong>{employeeData.address}</strong>
+            Place: {employeeData.address}
           </p>
           <p className="font-semibold">
             Date: <strong>{employeeData.hiring_date}</strong>
           </p>
         </div>
 
-        <div>
+        <div className="w-full text-center">
           <p className="font-semibold">Employee Name: {employeeData.fullName}</p>
           <p className="font-semibold">Employee ID: {employeeData.empid}</p>
           <p className="font-semibold">Date: {employeeData.hiring_date}</p>

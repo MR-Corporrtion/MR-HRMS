@@ -22,7 +22,7 @@ const calculateAge = (dateOfBirth: string): number => {
 
 export default function AntiBribery({ employeeData,companyData,branchData }: { employeeData: any, companyData:any,branchData: any }) {
   return (
-    <div className="max-w-[210mm] mx-auto p-8 border shadow bg-white flex flex-col items-center ">
+    <div className="a4-size mx-auto p-8 border shadow bg-white flex flex-col items-center ">
     <div className="flex items-center justify-center w-24 h-24 mb-1">
              <img
                src={

@@ -20,11 +20,11 @@ export const usersideBarArr: sideBarArrType[] = [
       title: "MapEmployee",
       img :leads,
       path: "./mapedemployee",
-    }
-    // {
-    //   id: 3,
-    //   title: "subcompany",
-    //   img :leads,
-    //   path: "./subCompany",
-    // },
+    },
+    {
+      id: 4,
+      title: "Approval Status",
+      img :leads,
+      path: "./ApprovalDashboard",
+    },
 ]

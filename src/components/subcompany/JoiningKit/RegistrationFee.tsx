@@ -188,7 +188,7 @@ export default function RegistrationFeePage1({ employeeData,companyData,branchDa
                 />
               </div>
         <p className="text-center font-semibold">{companyData?.compname}</p>
-        <p className="text-center">Plot No-HIG-42, Gangadhar Meher Marg, Jayadev Vihar, Bhubaneswar 751013, Odisha</p>
+        <p className="text-center">Arya Surya Enclave, Plot No- K5/475, Khata No 95/937, Fourth Floor, Mouza-Subudhi Pur, Kalinga Vihar, Patrapada, Bhuabneswar, Dist- Khurda, Odisha, India-751019.</p>
       </div>
 
       <h2 className="text-center font-bold underline mb-2">Employee Declaration for Registration Fee Deduction</h2>

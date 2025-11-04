@@ -39,8 +39,7 @@ export default function Checklist({ employeeData,companyData,branchData }: { emp
   />
 </div>
         <p className="text-center text-base">
-          Plot No-HIG-42, Gangadhar Meher Marg, Jayadev Vihar, Bhubaneswar
-          751013, Odisha
+          Arya Surya Enclave, Plot No- K5/475, Khata No 95/937, Fourth Floor, Mouza-Subudhi Pur, Kalinga Vihar, Patrapada, Bhuabneswar, Dist- Khurda, Odisha, India-751019.
         </p>
       </div>
 

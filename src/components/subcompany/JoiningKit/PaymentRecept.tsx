@@ -10,7 +10,7 @@ import { companyData } from '@/src/utils/superAdmin/data';
 function PaymentRecept({ employeeData,companyData,branchData }: { employeeData: any,companyData:any,branchData: any }) {
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-lg">
+    <div className="a4-size mx-auto bg-white p-6 shadow-lg rounded-lg">
   {/* Header Section */}
   <div className="text-center items-center mb-4">
     {/* Centered Logo */}
