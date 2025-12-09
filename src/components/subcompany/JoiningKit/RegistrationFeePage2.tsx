@@ -8,12 +8,12 @@ export default function RegistrationFeePage2({ employeeData,companyData,branchDa
       style={{
         width: "210mm",
         height: "297mm",
-        padding: "10mm",
+        padding: "6mm",
         border: "1px solid #ddd",
         backgroundColor: "white",
         boxSizing: "border-box",
-        fontSize: "14pt",
-        lineHeight: "1.3",
+        fontSize: "12pt",
+        lineHeight: "1.2",
       }}
       className="mx-auto shadow-lg"
     >
@@ -36,7 +36,7 @@ export default function RegistrationFeePage2({ employeeData,companyData,branchDa
 
       <h3 className="text-base font-semibold mb-1">Penalty Policy for Specified Offences:</h3>
 
-      <table className="w-full border-collapse border border-gray-300 mb-2 text-sm">
+      <table className="w-full border-collapse border border-gray-300 mb-1 text-xs">
         <thead>
           <tr className="bg-gray-100">
             <th className="border p-1">Offences</th>
@@ -50,7 +50,7 @@ export default function RegistrationFeePage2({ employeeData,companyData,branchDa
           </tr>
           <tr>
             <td className="border p-1">
-              Under the influence of alcohol/tobacco/sleeping or any other misconduct during duty hours.
+              Under the influence of alcohol/tobacco or any other misconduct during duty hours.
             </td>
             <td className="border p-1">Rs 1000/- with removal of the offender and termination of employment.</td>
           </tr>
@@ -62,7 +62,7 @@ export default function RegistrationFeePage2({ employeeData,companyData,branchDa
           </tr>
           <tr>
             <td className="border p-1">Absenteeism</td>
-            <td className="border p-1">Rs 100/- per instance</td>
+            <td className="border p-1">Rs 200/- per instance</td>
           </tr>
           <tr>
             <td className="border p-1">Wrong/Improper work Complaints are not registered or not addressed.</td>
@@ -79,8 +79,24 @@ export default function RegistrationFeePage2({ employeeData,companyData,branchDa
             <td className="border p-1">Rs 200/- per instance</td>
           </tr>
           <tr>
-            <td className="border p-1">Misbehaviour/Theft/Sexual harassment etc.</td>
-            <td className="border p-1">Rs 1000/- with removal of the offender and termination of employment.</td>
+            <td className="border p-1">Misbehaviour with Client/Senior/Subordinates</td>
+            <td className="border p-1">Rs 500/- per instance</td>
+          </tr>
+          <tr>
+            <td className="border p-1">Theft/Sexual harassment etc.</td>
+            <td className="border p-1">Immediate termination with full settlement of earned wages.</td>
+          </tr>
+          <tr>
+            <td className="border p-1">Absconding</td>
+            <td className="border p-1">Rs 1000/- as per company policy.</td>
+          </tr>
+          <tr>
+            <td className="border p-1">Absent post duty/post-out</td>
+            <td className="border p-1">Rs 1000/- as per company policy.</td>
+          </tr>
+          <tr>
+            <td className="border p-1">Sleeping during duty hours</td>
+            <td className="border p-1">Rs 500/- as per company policy.</td>
           </tr>
           <tr>
             <td className="border p-1">

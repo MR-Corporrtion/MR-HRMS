@@ -1,4 +1,3 @@
-// components/NewJoineeKit.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -27,7 +26,6 @@ import Declaration from "./JoiningKit/Declaration";
 
 // Assets
 import { logo } from "@/src/assets/admin/adminicon";
-import JoiningKitDocument from "./JoiningKit/Newlyadd";
 
 export default function NewJoineeKit({ empid }: { empid: string }) {
   const [employeeData, setEmployeeData] = useState<any>(null);
@@ -47,33 +45,23 @@ export default function NewJoineeKit({ empid }: { empid: string }) {
           const token =
             localStorage.getItem("accessToken") || sessionStorage.getItem("accessToken");
 
-          console.log("🔑 Using token:", token);
-
           const [employeeResponse, profileResponse, branchResponse] =
             await Promise.all([
               apiClient.get(`/employee/get/${empid}`, {
                 headers: { Authorization: `Bearer ${token}` },
-                withCredentials: true,
               }),
               apiClient.get(`/user/profile`, {
                 headers: { Authorization: `Bearer ${token}` },
-                withCredentials: true,
               }),
               apiClient.get("branch/get", {
                 params: { branchID },
                 headers: { Authorization: `Bearer ${token}` },
-                withCredentials: true,
               }),
             ]);
 
           setEmployeeData(employeeResponse.data);
           setCompanyData(profileResponse.data?.company);
           setBranches(branchResponse.data?.data);
-
-          console.log("✅ Employee Data:", employeeResponse.data);
-          console.log("✅ Company Data:", profileResponse.data?.company);
-          console.log("✅ Branch Data:", branchResponse.data?.data);
-
           setError(null);
         } catch (err) {
           console.error("❌ Error fetching data:", err);
@@ -87,60 +75,49 @@ export default function NewJoineeKit({ empid }: { empid: string }) {
           setIsLoading(false);
         }
       };
-
       fetchData();
     }
   }, [empid]);
 
-const handleDownload = async () => {
-  if (typeof window === "undefined") return;
+  const handleDownload = async () => {
+    if (typeof window === "undefined") return;
+    console.log("📄 Generating PDF...");
 
-  console.log("📄 Generating optimized PDF...");
+    const pdf = new jsPDF("p", "mm", "a4");
 
-  const element = document.getElementById("newJoineeKit");
-  if (!element) {
-    console.error("⚠️ Element with id 'newJoineeKit' not found");
-    return;
-  }
+    // ✅ Fix: safely convert NodeList to array (prevents TS error)
+    const sections = Array.from(document.querySelectorAll(".page-section"));
+    let isFirstPage = true;
 
-  const html2pdf = (await import("html2pdf.js")).default;
+    for (const [i, section] of sections.entries()) {
+      // ✅ Hide overflow for clean PDF capture
+      (section as HTMLElement).style.overflow = "hidden";
+      (section as HTMLElement).style.pageBreakInside = "avoid";
 
-  const opt = {
-    margin: [0, 0, 0, 0],
-    filename: `New_Joinee_Kit_${employeeData?.name || "Employee"}.pdf`,
-    image: { type: "jpeg", quality: 0.95 },
-    html2canvas: {
-      scale: 2, // high clarity, still fast
-      useCORS: true,
-      scrollY: 0,
-      windowWidth: element.scrollWidth,
-      windowHeight: element.scrollHeight,
-    },
-    jsPDF: {
-      unit: "mm",
-      format: "a4",
-      orientation: "portrait",
-      compress: true,
-    },
-    pagebreak: {
-      mode: ["css", "legacy"],
-      before: ".page-break",
-      after: ".page-break",
-      avoid: "tr, td, table",
-    },
+      // ✅ Capture only the visible section with proper scaling
+      const canvas = await html2canvas(section as HTMLElement, {
+        scale: 2, // high quality
+        useCORS: true,
+        scrollY: 0,
+        backgroundColor: "#ffffff",
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", 0.95);
+      const imgWidth = 210; // A4 width
+      const pageHeight = 297; // A4 height
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      if (!isFirstPage) pdf.addPage();
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+      isFirstPage = false;
+
+      console.log(`✅ Added section ${i + 1} to PDF`);
+    }
+
+    // ✅ Ensure proper cleanup
+    pdf.save(`New_Joinee_Kit_${employeeData?.name || "Employee"}.pdf`);
+    console.log("✅ PDF generated successfully with clean pages");
   };
-
-  // ✅ Small delay ensures DOM fully rendered
-  await new Promise((resolve) => setTimeout(resolve, 400));
-
-  html2pdf()
-    .from(element)
-    .set(opt)
-    .save()
-    .then(() => console.log("✅ PDF generated successfully"));
-};
-
-
 
   if (isLoading || !employeeData) {
     return <div className="text-center py-8">Loading...</div>;
@@ -158,111 +135,121 @@ const handleDownload = async () => {
           Download PDF
         </button>
 
-        {/* ✅ Request for Approval Button */}
         <SubmitForApproval
           employeeId={empid}
-          onSubmitted={() => {
-            console.log("📩 Approval request submitted successfully for:", empid);
-          }}
+          onSubmitted={() =>
+            console.log("📩 Approval request submitted successfully for:", empid)
+          }
         />
       </div>
 
       <div id="newJoineeKit">
-        {/* Existing Components */}
-        <Checklist
-          employeeData={employeeData}
-          companyData={companyData}
-          branchData={branchData}
-        />
-        <JoiningForm
-          employeeData={employeeData}
-          logo={{ src: logo.src }}
-          companyData={companyData}
-          branchData={branchData}
-        />
-        <RegistrationFeePage1
-          employeeData={employeeData}
-          companyData={companyData}
-          branchData={branchData}
-        />
-        <RegistrationFeePage2
-          employeeData={employeeData}
-          companyData={companyData}
-          branchData={branchData}
-        />
-        <OfficeAssets
-          employeeData={employeeData}
-          companyData={companyData}
-          branchData={branchData}
-        />
-        <div className="page-break">
-        <AntiBribery
-          employeeData={employeeData}
-          companyData={companyData}
-          branchData={branchData}
-        />
+        {/* ✅ Each page-section corresponds to exactly one A4 page */}
+        <div className="page-section">
+          <Checklist
+            employeeData={employeeData}
+            companyData={companyData}
+            branchData={branchData}
+          />
         </div>
-        <PaymentRecept
-          employeeData={employeeData}
-          companyData={companyData}
-          branchData={branchData}
-        />
-        
-        {/* New Separate Document Components */}
-        <div className="page-break">
+
+        <div className="page-section">
+          <JoiningForm
+            employeeData={employeeData}
+            logo={{ src: logo.src }}
+            companyData={companyData}
+            branchData={branchData}
+          />
+        </div>
+
+        <div className="page-section">
+          <RegistrationFeePage1
+            employeeData={employeeData}
+            companyData={companyData}
+            branchData={branchData}
+          />
+        </div>
+
+        <div className="page-section">
+          <RegistrationFeePage2
+            employeeData={employeeData}
+            companyData={companyData}
+            branchData={branchData}
+          />
+        </div>
+
+        <div className="page-section">
+          <OfficeAssets
+            employeeData={employeeData}
+            companyData={companyData}
+            branchData={branchData}
+          />
+        </div>
+
+        <div className="page-section">
+          <AntiBribery
+            employeeData={employeeData}
+            companyData={companyData}
+            branchData={branchData}
+          />
+        </div>
+
+        <div className="page-section">
+          <PaymentRecept
+            employeeData={employeeData}
+            companyData={companyData}
+            branchData={branchData}
+          />
+        </div>
+
+        {/* Separate Document Pages */}
+        <div className="page-section">
           <WarningLetter1
             employeeData={employeeData}
             companyData={companyData}
             branchData={branchData}
           />
         </div>
-        
-        <div className="page-break">
+
+        <div className="page-section">
           <WarningLetter2
             employeeData={employeeData}
             companyData={companyData}
             branchData={branchData}
           />
         </div>
-        
-        <div className="page-break">
+
+        <div className="page-section">
           <WarningLetter3
             employeeData={employeeData}
             companyData={companyData}
             branchData={branchData}
           />
         </div>
-        
-        <div className="page-break">
+
+        <div className="page-section">
           <ResignationLetter
             employeeData={employeeData}
             companyData={companyData}
             branchData={branchData}
           />
         </div>
-        
-        <div className="page-break">
+
+        <div className="page-section">
           <TermsAndConditions
             employeeData={employeeData}
             companyData={companyData}
             branchData={branchData}
           />
         </div>
-        
-        <div className="page-break">
+
+        <div className="page-section">
           <Declaration
             employeeData={employeeData}
             companyData={companyData}
             branchData={branchData}
           />
         </div>
-
-        {/* Original JoiningKitDocument (if you still want to include it) */}
-        {/* <JoiningKitDocument
-          employeeData={employeeData}
-          companyData={companyData}
-          branchData={branchData}
-        /> */}
       </div>
     </div>
   );

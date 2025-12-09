@@ -350,16 +350,55 @@ body {
     color-adjust: exact !important;
   }
 
-  #newJoineeKit {
-    width: 210mm;
-    min-height: 297mm;
-    page-break-inside: avoid;
+  /* 🧾 New Joinee Kit PDF Styles */
+
+/* Each section = one PDF page */
+.page-section {
+  width: 100%;
+  min-height: 297mm; /* standard A4 height */
+  padding: 20mm 15mm;
+  background-color: white;
+  box-sizing: border-box;
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Remove the last page break to avoid an empty page at the end */
+.page-section:last-child {
+  page-break-after: auto;
+}
+
+/* PDF-friendly reset */
+* {
+  -webkit-print-color-adjust: exact !important;
+  color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* When viewing normally (not printing), keep things centered */
+@media screen {
+  .page-section {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+}
+
+/* For printing (and PDF rendering), remove shadows & margins */
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
   }
 
-  .page-break {
-    page-break-before: always;
-    page-break-after: always;
+  .page-section {
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
   }
+}
 }
 
 
