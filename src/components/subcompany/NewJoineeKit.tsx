@@ -112,7 +112,7 @@ export default function NewJoineeKit({ empid }: { empid: string }) {
       isFirstPage = false;
 
       console.log(`✅ Added section ${i + 1} to PDF`);
-    }
+    });
 
     // ✅ Ensure proper cleanup
     pdf.save(`New_Joinee_Kit_${employeeData?.name || "Employee"}.pdf`);
