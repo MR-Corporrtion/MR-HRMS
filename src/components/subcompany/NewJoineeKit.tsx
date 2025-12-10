@@ -89,7 +89,7 @@ export default function NewJoineeKit({ empid }: { empid: string }) {
     const sections = Array.from(document.querySelectorAll(".page-section"));
     let isFirstPage = true;
 
-    for (const [i, section] of sections.entries()) {
+    sections.forEach((section, i) => {
       // ✅ Hide overflow for clean PDF capture
       (section as HTMLElement).style.overflow = "hidden";
       (section as HTMLElement).style.pageBreakInside = "avoid";
